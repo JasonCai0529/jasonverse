@@ -15,3 +15,6 @@ document.getElementById("uploadForm").addEventListener('submit', async function(
 });
 
 
+document.getElementById("clean-btn").addEventListener('click', ()=> {
+      document.getElementById('result').innerHTML = ``;
+})
