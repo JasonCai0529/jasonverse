@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mosaic Generator</title>
+</head>
+<body>
+  <h2>Mosaic Generator</h2>
+
+  <form id="uploadForm">
+    <label>Source Image (PNG):</label>
+    <input type="file" name="background" accept="image/png" required><br><br>
+
+    <label>Tile Images (PNG, multiple allowed):</label>
+    <input type="file" name="tiles" accept="image/png" multiple required><br><br>
+
+    <label>Number of Tiles:</label>
+    <input type="number" name="num_tiles" required><br><br>
+
+    <label>Pixels per Tile:</label>
+    <input type="number" name="pixels_per_tile" required><br><br>
+
+    <button type="submit">Generate Mosaic</button>
+  </form>
+
+  <div id="result"></div>
+
+  <button id="clear-btn"></button>
+
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+
+      const res = await fetch('/generate', {
+        method: 'POST',
+        body: formData
+      });
+
+      const blob = await res.blob();
+      const imgUrl = URL.createObjectURL(blob);
+      document.getElementById('result').innerHTML = `<h3>Result:</h3><img src="${imgUrl}" style="max-width:400px;">`;
+    });
+
+    document.getElementById("clean-btn").addEventListener('click', ()=> {
+      document.getElementById('result').innerHTML = ``;
+    })
+  </script>
+</body>
+</html>

@@ -1,51 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Mosaic Generator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/mosaic_style.css">
+    <title>Document</title>
+
 </head>
 <body>
-  <h2>Mosaic Generator</h2>
+    <h1>Photo Mosaic Generator</h1>
+    
+    <form id="uploadForm">
+        <label>Source Image(PNG):</label>
+        <div class="input-section">
+                <input type="file" name="background" accept="image/png" required><br><br>
+        </div>
 
-  <form id="uploadForm">
-    <label>Source Image (PNG):</label>
-    <input type="file" name="background" accept="image/png" required><br><br>
 
-    <label>Tile Images (PNG, multiple allowed):</label>
-    <input type="file" name="tiles" accept="image/png" multiple required><br><br>
+        <label>Tile Images(PNG, multiple allowed):</label>
+        <input type="file" name="tiles" accept="image/png" multiple required><br><br>
 
-    <label>Number of Tiles:</label>
-    <input type="number" name="num_tiles" required><br><br>
+        <label>Number of Tiles:</label>
+        <input type="number" name="num_tiles" required><br><br>
 
-    <label>Pixels per Tile:</label>
-    <input type="number" name="pixels_per_tile" required><br><br>
+        <label>Pixels per Tile:</label>
+        <input type="number" name="pixels_per_tile" required><br><br>
 
-    <button type="submit">Generate Mosaic</button>
-  </form>
+        <button type="submit">Generate Mosaic</button>
+    </form>
 
-  <div id="result"></div>
+    <div id="output-img"></div>
 
-  <button id="clear-btn"></button>
+    <button id="clear-btn"></button>
 
-  <script>
-    document.getElementById('uploadForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const form = e.target;
-      const formData = new FormData(form);
+    <script src="static/js/mosaic.js"></script>
 
-      const res = await fetch('/generate', {
-        method: 'POST',
-        body: formData
-      });
 
-      const blob = await res.blob();
-      const imgUrl = URL.createObjectURL(blob);
-      document.getElementById('result').innerHTML = `<h3>Result:</h3><img src="${imgUrl}" style="max-width:400px;">`;
-    });
 
-    document.getElementById("clean-btn").addEventListener('click', ()=> {
-      document.getElementById('result').innerHTML = ``;
-    })
-  </script>
+
 </body>
 </html>
