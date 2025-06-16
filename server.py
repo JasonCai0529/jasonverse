@@ -11,7 +11,6 @@ os.makedirs(TILE_FOLDER, exist_ok=True)
 
 @app.route('/')
 def index():
-    print("in index()")
     return app.send_static_file('index.html')
 
 @app.route('/generate', methods=['POST'])
@@ -26,8 +25,8 @@ def generate():
     bg_file.save(bg_path) # bg_file ->writesInto-> bg_path
 
     # Clear and recreate tile folder
-    for f in os.listdir(TILE_FOLDER):
-        os.remove(os.path.join(TILE_FOLDER, f))
+    for f in os.listdir(TILE_FOLDER): # f -> filename
+        os.remove(os.path.join(TILE_FOLDER, f)) # rebuild the path and pass it to the remove function
 
     tile_files = request.files.getlist('tiles')
     for tile_file in tile_files:
