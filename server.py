@@ -29,17 +29,14 @@ def sendIndex():
 
 @app.route('/generate', methods=['POST'])
 def generateMosaic():
-    print("Starting the process of generating photo mosaic")
     if ("sourceImg" not in request.files or "tileImgs" not in request.files):
         return "Missing source or tile image", 400
     
-
     source_file = request.files['sourceImg']
     # source_file_name = secure_filename(source_file.filename)
     source_path = os.path.join(UPLOAD_FOLDER, "source.png")
     imgUtil.convert_to_PNG(source_file, source_path, 1200)
 
-    
     for i, tile in enumerate(request.files.getlist('tileImgs')):
         tile_filename = f'tile{i}.png'
         tile_path = os.path.join(TILE_FOLDER, tile_filename)
@@ -51,7 +48,6 @@ def generateMosaic():
 
     
     subprocess.run(['./mosaics', source_path, TILE_FOLDER, num_tiles, pixels_per_tile, output_path], check=True)
-
     return send_file(output_path, mimetype='image/png')
 
 
@@ -59,6 +55,7 @@ def generateMosaic():
 def rescale_output():
     scale_value = float(request.form.get('scale-value', 1.0))
     imgUtil.rescale(output_path, scale_value)
+    print(f"sending rescaled image with factor: {scale_value}")
     return send_file(output_path, mimetype='image/png')
     
 if __name__ == "__main__":
