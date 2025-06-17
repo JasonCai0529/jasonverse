@@ -15,5 +15,5 @@ document.getElementById("uploadForm").addEventListener('submit', async function(
 
 
 document.getElementById("clear-btn").addEventListener('click', ()=> {
-      document.getElementById('output-img').innerHTML = ``;
+      location.reload();
 });
