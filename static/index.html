@@ -11,14 +11,20 @@
     <h1>Photo Mosaic Generator</h1>
     
     <form id="uploadForm">
-        <label>Source Image(PNG):</label>
-        <div class="input-section">
+
+        <div class="image-section">
+            <div id="sourceImg-section">
+                <label>Source Image(PNG):</label>
                 <input type="file" name="sourceImg" accept="image/png" required><br><br>
+            </div>
+
+            <div id="tileImg-section">
+                <label>Tile Images(PNG, multiple allowed):</label>
+                <input type="file" name="tileImgs" accept="image/png" multiple required><br><br>
+            </div>
         </div>
+        
 
-
-        <label>Tile Images(PNG, multiple allowed):</label>
-        <input type="file" name="tileImgs" accept="image/png" multiple required><br><br>
 
         <label>Number of Tiles:</label>
         <input type="number" name="num_tiles" required><br><br>

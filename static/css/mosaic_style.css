@@ -1,3 +1,24 @@
 .input-section {
     border: solid green 2px;
 }
+
+
+.image-section {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+#sourceImg-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+#tileImg-section {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
