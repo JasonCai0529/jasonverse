@@ -10,7 +10,7 @@ document.getElementById("uploadForm").addEventListener('submit', async function(
 
     const blob = await res.blob();
     const imgURL = URL.createObjectURL(blob);
-    document.getElementById('output-img').innerHTML = `<h3>Result:</h3><img src="${imgURL}" style="max-width:400px;">`;
+    document.getElementById('output-img').innerHTML = `<h3>Result:</h3><img src="${imgURL}">`;
 });
 
 

@@ -1,16 +1,17 @@
 import os
 from flask import Flask, request, send_file
-from werkzeug.utils import secure_filename
 import subprocess
 import shutil
 import atexit
+
+from utils.image_utils import convert_to_PNG
 
 
 app = Flask(__name__)
 
 
 @atexit.register
-def remove_uploads_on_exit():
+def remove_uploads_on_exit(): # upon exit, clear out the whole uploads folder
     shutil.rmtree(UPLOAD_FOLDER, ignore_errors=True)
     print("Cleaned up uploads directory.")
 
@@ -32,26 +33,21 @@ def generateMosaic():
     
 
     source_file = request.files['sourceImg']
-    source_file_name = secure_filename(source_file.filename)
-    source_path = os.path.join(UPLOAD_FOLDER, source_file_name)
-    source_file.save(source_path) # save the sourceImg to the path specified by source_path
-
-
-    for f in os.listdir(TILE_FOLDER):
-        print(TILE_FOLDER)
-        os.remove(os.path.join(TILE_FOLDER, f))
+    # source_file_name = secure_filename(source_file.filename)
+    source_path = os.path.join(UPLOAD_FOLDER, "source.png")
+    convert_to_PNG(source_file, source_path, 1200)
 
     
-    for tile in request.files.getlist('tileImgs'):
-        tile_filename = secure_filename(tile.filename)
-        tile.save(os.path.join(TILE_FOLDER, tile_filename))
+    for i, tile in enumerate(request.files.getlist('tileImgs')):
+        tile_filename = f'tile{i}.png'
+        tile_path = os.path.join(TILE_FOLDER, tile_filename)
+        convert_to_PNG(tile, tile_path, 100)
 
 
     num_tiles = request.form.get('num_tiles')
     pixels_per_tile = request.form.get('pixels_per_tile')
 
     output_path = os.path.join(UPLOAD_FOLDER, "mosaic_output.png")
-
 
     subprocess.run(['./mosaics', source_path, TILE_FOLDER, num_tiles, pixels_per_tile, output_path], check=True)
 
