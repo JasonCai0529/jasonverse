@@ -33,10 +33,19 @@
         <input type="number" name="pixels_per_tile" required><br><br>
 
         <button type="submit">Generate Mosaic</button>
+    
+
     </form>
 
     <div id="output-img"></div>
 
+    
+     <div id="rescale-section" style="display: none; margin-top: 20px;">
+            <label for="scale">Rescale Image: </label>
+            <input type="range" id="scale-bar" min="0.1" max="2" step="0.1" value="1">
+            <span id="scale-value">1×</span>
+            <button id="confirm-rescale-btn">Confirm</button>
+    </div>
 
     <div id="clear-btn-wrapper">
         <button id="clear-btn">Clear</button>

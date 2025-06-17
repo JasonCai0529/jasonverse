@@ -4,7 +4,7 @@ import subprocess
 import shutil
 import atexit
 
-from utils.image_utils import convert_to_PNG
+import utils.image_utils as imgUtil
 
 
 app = Flask(__name__)
@@ -19,6 +19,8 @@ UPLOAD_FOLDER = 'uploads'
 TILE_FOLDER = os.path.join(UPLOAD_FOLDER, 'tiles')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(TILE_FOLDER, exist_ok=True)
+
+output_path = os.path.join(UPLOAD_FOLDER, "mosaic_output.png")
 
 @app.route('/')
 def sendIndex():
@@ -35,24 +37,29 @@ def generateMosaic():
     source_file = request.files['sourceImg']
     # source_file_name = secure_filename(source_file.filename)
     source_path = os.path.join(UPLOAD_FOLDER, "source.png")
-    convert_to_PNG(source_file, source_path, 1200)
+    imgUtil.convert_to_PNG(source_file, source_path, 1200)
 
     
     for i, tile in enumerate(request.files.getlist('tileImgs')):
         tile_filename = f'tile{i}.png'
         tile_path = os.path.join(TILE_FOLDER, tile_filename)
-        convert_to_PNG(tile, tile_path, 100)
+        imgUtil.convert_to_PNG(tile, tile_path, 100)
 
 
     num_tiles = request.form.get('num_tiles')
     pixels_per_tile = request.form.get('pixels_per_tile')
 
-    output_path = os.path.join(UPLOAD_FOLDER, "mosaic_output.png")
-
+    
     subprocess.run(['./mosaics', source_path, TILE_FOLDER, num_tiles, pixels_per_tile, output_path], check=True)
 
     return send_file(output_path, mimetype='image/png')
 
 
+@app.route('/rescale', methods=['POST'])
+def rescale_output():
+    scale_value = float(request.form.get('scale-value', 1.0))
+    imgUtil.rescale(output_path, scale_value)
+    return send_file(output_path, mimetype='image/png')
+    
 if __name__ == "__main__":
     app.run(debug=True)
