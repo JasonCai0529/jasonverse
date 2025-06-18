@@ -11,7 +11,17 @@ document.getElementById("uploadForm").addEventListener('submit', async function(
     const blob = await res.blob();
     const imgURL = URL.createObjectURL(blob);
     document.getElementById('output-img').innerHTML = `<h3>Result:</h3><img src="${imgURL}">`;
+    // bring up the operation buttons regard to the output image
     document.getElementById("rescale-section").style.display = "block";
+    document.getElementById('reset-btns-container').style.display = "block";
+    const saveBtn = document.getElementById("save-btn");
+    saveBtn.style.display = "inline-block";
+    saveBtn.onclick = ()=> {
+        const a = document.createElement('a');
+        a.href = imgURL;
+        a.download = 'mosaic.png';
+        a.click();
+    }
 });
 
 
