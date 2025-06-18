@@ -15,7 +15,7 @@
         <div class="image-section">
             <div id="sourceImg-section">
                 <label>Source Image(PNG):</label>
-                <input type="file" name="sourceImg" accept="image/*" required><br><br>
+                <input type="file" id="sourceImg" name="sourceImg" accept="image/*" required><br><br>
             </div>
 
             <div id="tileImg-section">
@@ -37,7 +37,9 @@
 
     </form>
 
-    <div id="output-img"></div>
+    <div id="output-img">
+        <img id="mosaic-img">
+    </div>
 
     
      <div id="rescale-section" style="display: none; margin-top: 20px;">

@@ -26,6 +26,10 @@ output_path = os.path.join(UPLOAD_FOLDER, "mosaic_output.png")
 def sendIndex():
     return app.send_static_file('index.html')
 
+@app.route('/getOriginal')
+def getOriginalImg(): # this should only gets called after mosaic has been generated
+    return send_file(os.path.join(UPLOAD_FOLDER, "source.png"), mimetype="image/png")
+
 
 @app.route('/generate', methods=['POST'])
 def generateMosaic():
@@ -48,6 +52,8 @@ def generateMosaic():
 
     
     subprocess.run(['./mosaics', source_path, TILE_FOLDER, num_tiles, pixels_per_tile, output_path], check=True)
+    imgUtil.match_image_size(source_path, output_path)
+
     return send_file(output_path, mimetype='image/png')
 
 

@@ -15,3 +15,12 @@ def rescale(path, scale_factor):
         new_size = (int(img.width * scale_factor), int(img.height * scale_factor))
         resized = img.resize(new_size, Image.Resampling.LANCZOS)
         resized.save(path, format='PNG', optimize=True)
+
+
+def match_image_size(source_path, output_path):
+    with Image.open(output_path) as outImg:
+        size = outImg.size
+
+    with Image.open(source_path) as srcImg:
+        resizedImg = srcImg.resize(size, Image.Resampling.LANCZOS)
+        resizedImg.save(source_path, format='PNG', optimize=True)
