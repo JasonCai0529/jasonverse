@@ -20,6 +20,7 @@ TILE_FOLDER = os.path.join(UPLOAD_FOLDER, 'tiles')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(TILE_FOLDER, exist_ok=True)
 
+source_path = os.path.join(UPLOAD_FOLDER, "source.png")
 output_path = os.path.join(UPLOAD_FOLDER, "mosaic_output.png")
 
 @app.route('/')
@@ -28,6 +29,8 @@ def sendIndex():
 
 @app.route('/getOriginal')
 def getOriginalImg(): # this should only gets called after mosaic has been generated
+    imgUtil.match_image_size(source_path, output_path)
+    print(source_path)
     return send_file(os.path.join(UPLOAD_FOLDER, "source.png"), mimetype="image/png")
 
 
@@ -38,7 +41,6 @@ def generateMosaic():
     
     source_file = request.files['sourceImg']
     # source_file_name = secure_filename(source_file.filename)
-    source_path = os.path.join(UPLOAD_FOLDER, "source.png")
     imgUtil.convert_to_PNG(source_file, source_path, 1200)
 
     for i, tile in enumerate(request.files.getlist('tileImgs')):
@@ -50,15 +52,12 @@ def generateMosaic():
     num_tiles = request.form.get('num_tiles')
     pixels_per_tile = request.form.get('pixels_per_tile')
 
-    
-
     try:
         subprocess.run(['./mosaics', source_path, TILE_FOLDER, num_tiles, pixels_per_tile, output_path], check=True)
     except subprocess.CalledProcessError as e:
         print("Image generation failed:", e)
         return "Mosaic generation failed", 500
 
-    imgUtil.match_image_size(source_path, output_path)
 
     return send_file(output_path, mimetype='image/png')
 
@@ -69,6 +68,8 @@ def rescale_output():
     imgUtil.rescale(output_path, scale_value)
     print(f"sending rescaled image with factor: {scale_value}")
     return send_file(output_path, mimetype='image/png')
-    
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)

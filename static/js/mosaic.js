@@ -97,10 +97,20 @@ document.getElementById('confirm-rescale-btn').addEventListener('click', async (
         method: 'POST',
         body: formData
     })
+
     const blob = await res.blob();
     const imgURL = URL.createObjectURL(blob);
-    document.getElementById('output-img').innerHTML = `<h3>Result:</h3><img src="${imgURL}" style="max-width: 100%; max-height: 100%; object-fit: contain;">`;
+    mosaicURL = imgURL;
+    document.getElementById("mosaic-img").src = imgURL; // set up the mosiac picture
+
+    // regenerate the resized original image
+    const resOriginal = await fetch('/getOriginal');
+    const blobOriginal = await resOriginal.blob();
+    originalURL = URL.createObjectURL(blobOriginal);
 });
+
+
+
 
 
 
