@@ -51,7 +51,13 @@ def generateMosaic():
     pixels_per_tile = request.form.get('pixels_per_tile')
 
     
-    subprocess.run(['./mosaics', source_path, TILE_FOLDER, num_tiles, pixels_per_tile, output_path], check=True)
+
+    try:
+        subprocess.run(['./mosaics', source_path, TILE_FOLDER, num_tiles, pixels_per_tile, output_path], check=True)
+    except subprocess.CalledProcessError as e:
+        print("Image generation failed:", e)
+        return "Mosaic generation failed", 500
+
     imgUtil.match_image_size(source_path, output_path)
 
     return send_file(output_path, mimetype='image/png')

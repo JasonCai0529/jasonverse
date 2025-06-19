@@ -13,10 +13,19 @@ document.getElementById("uploadForm").addEventListener('submit', async function(
         body: formData
     });
 
+    if (!res.ok) {
+        // if did not get a valid response
+        document.getElementById('output-img').innerHTML =
+        `<div class="toast hide">Failed to Generate Moasics
+            <p>Please try lowering the number of Tiles Images/Pixels per tile/Number of tiles</p>
+        </div>`;
+        return;
+    }
+
     const blob = await res.blob();
     const imgURL = URL.createObjectURL(blob);
     mosaicURL = imgURL;
-    document.getElementById("mosaic-img").src = imgURL;
+    document.getElementById("mosaic-img").src = imgURL; // set up the mosiac picture
     
     // get the resize original img and store them in original url
     const resOriginal = await fetch('/getOriginal');
