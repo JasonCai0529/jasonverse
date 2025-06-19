@@ -3,10 +3,19 @@ let mosaicURL = '';
 let showMosaic = true;
 
 // a rotate feature && and image loadign in progress animate
-document.getElementById("uploadForm").addEventListener('submit', async function(e) {
+document.getElementById("upload-form").addEventListener('submit', async function(e) {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
+
+    let numTiles = formData.get("num_tiles");
+    let pixelsPerTile = formData.get("pixels_per_tile");
+    // Use default if the field is empty or null
+    if (!numTiles) numTiles = 40;
+    if (!pixelsPerTile) pixelsPerTile = 50;
+    formData.set("num_tiles", numTiles);
+    formData.set("pixels_per_tile", pixelsPerTile);
+
 
     const res = await fetch('/generate', {
         method: "POST",
