@@ -2,6 +2,20 @@ let originalURL = '';
 let mosaicURL = '';
 let showMosaic = true;
 
+let rotation = 0; // degrees
+document.getElementById("rotate-btn").addEventListener("click", () => {
+    rotation = (rotation + 90) % 360;
+    document.getElementById("mosaic-img").style.transform = `rotate(${rotation}deg)`;
+
+    const imgDiv = document.getElementById("output-img");
+    if (rotation % 90 % 2 != 0) {
+        console.log("vertical");
+        imgDiv.style.maxHeight = "100%";
+    } else {
+        imgDiv.style.maxHeight = "60hv";
+    }
+});
+
 // a rotate feature && and image loadign in progress animate
 document.getElementById("upload-form").addEventListener('submit', async function(e) {
     e.preventDefault();
