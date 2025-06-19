@@ -56,6 +56,13 @@ document.getElementById("upload-form").addEventListener('submit', async function
 });
 
 
+document.getElementById("upload-form").addEventListener('change', ()=> {
+    if (document.getElementById('mosaic-img').src) {
+        document.getElementById('generate-btn').innerHTML = "Regenerate";
+    }
+});
+
+
 document.getElementById('output-img').addEventListener('click', ()=> {
     const mosaicImg = document.getElementById("mosaic-img");
     if (showMosaic) {
