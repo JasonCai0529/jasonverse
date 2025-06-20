@@ -8,11 +8,11 @@ document.getElementById("rotate-btn").addEventListener("click", () => {
     document.getElementById("mosaic-img").style.transform = `rotate(${rotation}deg)`;
 
     const imgDiv = document.getElementById("output-img");
-    if (rotation % 90 % 2 != 0) {
+    if (rotation == 90 || rotation == 270) {
         console.log("vertical");
-        imgDiv.style.maxHeight = "100%";
+        imgDiv.style.height = "100%";
     } else {
-        imgDiv.style.maxHeight = "60hv";
+        imgDiv.style.height = "70vh";
     }
 });
 
