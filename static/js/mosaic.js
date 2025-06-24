@@ -8,8 +8,7 @@ document.getElementById("rotate-btn").addEventListener("click", () => {
     document.getElementById("mosaic-img").style.transform = `rotate(${rotation}deg)`;
 
     const imgDiv = document.getElementById("output-img");
-    if (rotation == 90 || rotation == 270) {
-        console.log("vertical");
+    if (rotation == 90 || rotation == 270) { // when the image is in portrait mode
         imgDiv.style.height = "100%";
     } else {
         imgDiv.style.height = "70vh";
@@ -40,7 +39,7 @@ document.getElementById("upload-form").addEventListener('submit', async function
         // if did not get a valid response
         document.getElementById('output-img').innerHTML =
         `<div class="toast hide">Failed to Generate Moasics
-            <p>Please try lowering the number of Tiles Images/Pixels per tile/Number of tiles</p>
+            <p>Please try lowering the number of -Pixels per tile- or -Number of tiles-</p>
         </div>`;
         return;
     }
